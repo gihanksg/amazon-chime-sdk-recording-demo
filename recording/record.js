@@ -69,13 +69,7 @@ transcodeStreamToOutput.stderr.on('data', data => {
     console.log(`[transcodeStreamToOutput process] stderr: ${(new Date()).toISOString()} ffmpeg: ${data}`);
 });
 
-const timestamp = new Date();
-const fileTimestamp = timestamp.toISOString().substring(0,19);
-const year = timestamp.getFullYear();
-const month = timestamp.getMonth() + 1;
-const day = timestamp.getDate();
-const hour = timestamp.getUTCHours();
-const fileName = `${year}/${month}/${day}/${hour}/${fileTimestamp}.mp4`;
+const fileName = `recordings/${process.env.SESSION_ID}.mp4`;
 new S3Uploader(BUCKET_NAME, fileName).uploadStream(transcodeStreamToOutput.stdout);
 
 // event handler for docker stop, not exit until upload completes

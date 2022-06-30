@@ -103,7 +103,11 @@ function startRecording(event, context, callback, meetingUrl) {
                         {
                             name: "RECORDING_ARTIFACTS_BUCKET",
                             value: recordingArtifactsBucket
-                        }
+                        },
+                        {
+                            name: "SESSION_ID",
+                            value: meetingUrl.substring(meetingUrl.search(/session-id=/i) + 11, meetingUrl.search(/session-id=/i) + 35)
+                        },
                     ],
                     name: ecsContainerName
                 }
