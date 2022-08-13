@@ -6,7 +6,7 @@ Parameters:
     Default: 1024
   ECSTaskMemory:
     Type: Number
-    Default: 2048
+    Default: 4096
   ECSContainerName:
     Type: String
     Default: recording-demo-container
@@ -15,10 +15,10 @@ Parameters:
     Default: 1024
   ECSContainerMemory:
     Type: Number
-    Default: 2048
+    Default: 4096
   ECSContainerMemoryReservation:
     Type: Number
-    Default: 2048
+    Default: 4096
   EcsClusterName:
     Type: String
     Description: Specifies the ECS Cluster Name with which the resources would be
@@ -35,7 +35,7 @@ Parameters:
     Default: 5
   DesiredCapacity:
     Type: Number
-    Default: 2
+    Default: 1
     Description: Number of instances to launch in your ECS cluster.
   ImageId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
@@ -44,8 +44,9 @@ Parameters:
   InstanceType:
     Description: EC2 instance type
     Type: String
-    Default: t3.xlarge
+    Default: t3.large
     AllowedValues:
+    - t3.small
     - mt2.large
     - t2.xlarge
     - t2.2xlarge
@@ -155,7 +156,7 @@ Resources:
             Ref: ECSRecordingDemoTaskDefinition
           recordingArtifactsBucket:
             Ref: RecordingArtifactsUploadBucket
-      CodeUri: s3://study-table-dev-recorder/c395f215b75ee85c71f83defe35c98dd
+      CodeUri: s3://study-table-dev-recorder/bd56c907d8fb6ac0f612f00aa9c35bbf
       Events:
         Api1:
           Type: Api
@@ -199,7 +200,7 @@ Resources:
             awslogs-stream-prefix:
               Ref: ECSContainerName
         LinuxParameters:
-          SharedMemorySize: 2048
+          SharedMemorySize: 4096
     Metadata:
       SamResourceId: ECSRecordingDemoTaskDefinition
   ECSCluster:
@@ -378,7 +379,7 @@ Resources:
       - Ref: PublicSubnet2
       LaunchConfigurationName:
         Ref: ContainerInstances
-      MinSize: '1'
+      MinSize: '2'
       MaxSize:
         Ref: EcsAsgMaxSize
       DesiredCapacity:
